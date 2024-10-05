@@ -3,6 +3,7 @@ package br.com.miaujuda.controllers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,41 +18,46 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.miaujuda.dtos.LoginDTO;
 import br.com.miaujuda.dtos.PetsDTO;
-import br.com.system.dto.ClientDTO;
-import br.com.system.dto.LoginDTO;
-import br.com.system.model.Client;
+import br.com.miaujuda.model.Pets;
+import br.com.miaujuda.serices.PetsServices;
 
 @RestController
 @RequestMapping("/pets")
 public class PetsContoller {
 
     @Autowired
-    private PetsService service;
+    private PetsServices service;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<PetsDTO> findByAll() {
 		return service.findAll();
     }
 	
-	@GetMapping(value = "/pets/{pets}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<PetsDTO> findByPets(@PathVariable(value = "pets") String razaoSocial){
-		
+    @GetMapping(value = "/{pet}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<PetsDTO> findByPet(@PathVariable(value = "pet") String pet){
+    	return service.findByPet(pet); 
 	}
+    
+    @GetMapping(value = "/mat/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Optional<Pets> findById(@PathVariable(value = "id") Long id){
+    	return service.findById(id); 
+    }
 	
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public PetsDTO create(@RequestBody Pets pets) throws Exception {
-        return service.create(pets);
+    public PetsDTO create(@RequestBody Pets pet) throws Exception {
+        return service.create(pet);
     }
 	
     
     @PutMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public PetsDTO update(@RequestBody Pets pets) throws Exception {
-        return service.update(pets);
+    public PetsDTO update(@RequestBody Pets pet) throws Exception {
+        return service.update(pet);
     }
 	
     
@@ -71,7 +77,7 @@ public class PetsContoller {
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginDTO loginDTO) {
         Map<String, String> response = new HashMap<>();
 
-        User authenticatedUser = service.login(loginDTO.getUsuario(), loginDTO.getSenha());
+        Pets authenticatedUser = service.login(loginDTO.getUsername(), loginDTO.getPassword());
 
         if (authenticatedUser != null) {
             if ("ativo".toUpperCase().equals(authenticatedUser.getStatus())) {
