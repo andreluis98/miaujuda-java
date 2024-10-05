@@ -91,6 +91,10 @@ public class PetsServices {
     	return repository.findByUsernameAndPassword(username, password);
     }
     
+    public Pets save(Pets pet) {
+        return repository.save(pet);
+    }
+    
     // Convert model to DTO
     private PetsDTO convertToDTO(Pets pets) {
         PetsDTO dto = new PetsDTO();
