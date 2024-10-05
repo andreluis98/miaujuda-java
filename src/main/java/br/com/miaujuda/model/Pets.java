@@ -39,7 +39,10 @@ public class Pets implements Serializable{
     private String pet; 
     
     @Column(nullable = false)
-    private String user;
+    private String username;
+    
+	@Column(nullable = false)
+	private String password;
 
 	public Long getId() {
 		return id;
@@ -97,17 +100,27 @@ public class Pets implements Serializable{
 		this.pet = pet;
 	}
 
-	public String getUser() {
-		return user;
+
+
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, gender, id, name, observation, pet, status, user);
+		return Objects.hash(address, gender, id, name, observation, password, pet, status, username);
 	}
 
 	@Override
@@ -121,9 +134,13 @@ public class Pets implements Serializable{
 		Pets other = (Pets) obj;
 		return Objects.equals(address, other.address) && Objects.equals(gender, other.gender)
 				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
-				&& Objects.equals(observation, other.observation) && Objects.equals(pet, other.pet)
-				&& Objects.equals(status, other.status) && Objects.equals(user, other.user);
-	} 
+				&& Objects.equals(observation, other.observation) && Objects.equals(password, other.password)
+				&& Objects.equals(pet, other.pet) && Objects.equals(status, other.status)
+				&& Objects.equals(username, other.username);
+	}
+
+ 
+	
     
     
 
