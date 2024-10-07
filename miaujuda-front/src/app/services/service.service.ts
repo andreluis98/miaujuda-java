@@ -12,12 +12,12 @@ export class ServiceService {
 
     //Login
     getLogin(
-      usuario: string,
-      senha: string
+      username: string,
+      password: string
     ) {
       const body = {
-        usuario: usuario,
-        senha: senha
+        username: username,
+        password: password
       }
   
       return this.httpClient.post(`${this.baseUrl}/login`, body)
@@ -41,8 +41,8 @@ export class ServiceService {
     address: string,
     observation: string,
     pet: string,
-    usuario: string,
-    senha: string,
+    usename: string,
+    password: string,
   ) {
     const body = {
       name: name,
@@ -51,8 +51,8 @@ export class ServiceService {
       address: address,
       observation: observation,
       pet: pet,
-      usuario: usuario,
-      senha: senha,
+      usename: usename,
+      password: password,
     }
     return this.httpClient.post(`${this.baseUrl}`, body)
   }
@@ -66,8 +66,8 @@ export class ServiceService {
     address?: string,
     observation?: string,
     pet?: string,
-    usuario?: string,
-    senha?: string,
+    usename?: string,
+    password?: string,
   ) {
     const body = {
       id: id,
@@ -77,8 +77,8 @@ export class ServiceService {
       address: address,
       observation: observation,
       pet: pet,
-      usuario: usuario,
-      senha: senha,
+      usename: usename,
+      password: password,
     }
     return this.httpClient.put(`${this.baseUrl}`, body)
   }
