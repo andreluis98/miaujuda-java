@@ -75,10 +75,18 @@ public class PetsContoller {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginDTO loginDTO) {
+        System.out.println("Corpo da requisição recebido: " + loginDTO);
+        System.out.println("Username: " + loginDTO.getUsername());
+        System.out.println("Password: " + loginDTO.getPassword());
         Map<String, String> response = new HashMap<>();
 
         Pets authenticatedUser = service.login(loginDTO.getUsername(), loginDTO.getPassword());
 
+//        System.out.println("Username: " + loginDTO.getUsername());
+//        System.out.println("Password: " + loginDTO.getPassword());
+
+
+        
         if (authenticatedUser != null) {
             if ("ativo".toUpperCase().equals(authenticatedUser.getStatus())) {
                 response.put("message", "Login bem-sucedido.");
