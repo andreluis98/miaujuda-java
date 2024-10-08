@@ -6,15 +6,20 @@
 .nav-link, .dropdown-item{
     color: white !important;
 }
+
 .nav-link:hover:not(.active), .dropdown-item:hover{
     background-color: #7952b3;
     color: white !important;
 }
 
+.logo {
+    width: 7%;
+}
+
 .bg-imagem{
     /* para manter a responsividade do viewport */
     height: 48vw;
-    background-image: url(https://caes101.files.wordpress.com/2012/09/cao-gato.jpg);
+    /* background-image: url(https://caes101.files.wordpress.com/2012/09/cao-gato.jpg); */
     /* Cover define que a imagem de fundo será ajustada para cobrir a área do container*/
     background-repeat: no-repeat;
     background-size: cover;
@@ -29,7 +34,7 @@
 .bg-imagem-doe{
     /* para manter a responsividade do viewport */
     height: 48vw;
-    background-image: url(https://www.diariodepernambuco.com.br/static/app/noticia_127983242361/2020/04/17/825933/20200417104610761816i.jpg);
+    /* background-image: url(https://www.diariodepernambuco.com.br/static/app/noticia_127983242361/2020/04/17/825933/20200417104610761816i.jpg); */
     /* Cover define que a imagem de fundo será ajustada para cobrir a área do container*/
     background-repeat: no-repeat;
     background-size: cover;

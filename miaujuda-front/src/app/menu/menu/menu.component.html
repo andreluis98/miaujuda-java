@@ -1,0 +1,52 @@
+<header>
+  <nav class="navbar bg-dark navbar-expand-sm navbar-dark fixed-top">
+    <!-- Logo -->
+    <img class="logo" src="../../../assets/images/IMG-20210824-WA0019.svg" alt="Miaujuda" />
+    
+    <!-- Menu hamburguer -->
+    <button class="navbar-toggler" type="button" (click)="toggleNavbar()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Itens do menu -->
+    <div [ngClass]="{ 'collapse': !isNavbarOpen, 'show': isNavbarOpen }" id="navegacao" class="navbar-collapse">
+      <ul class="navbar-nav ml-auto mr-5">
+        <li class="nav-item">
+          <a routerLink="/welcome" class="nav-link" routerLinkActive="active">Home</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/doe" class="nav-link" routerLinkActive="active">Doe Amor</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" (click)="toggleDropdown()" [class.active]="isDropdownOpen">Ongs</a>
+          <div [ngClass]="{ 'dropdown-menu bg-dark': true, 'show': isDropdownOpen }">
+            <a target="_blank" href="#" class="dropdown-item">
+              <i class="bi bi-file-earmark-person mr-1"></i> Miaujado
+            </a>
+            <a target="_blank" href="#" class="dropdown-item">
+              <i class="bi bi-facebook mr-1"></i> Miaujudamos
+            </a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/login" class="nav-link" routerLinkActive="active">Login</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/cadastro" class="nav-link" routerLinkActive="active">Cadastre-se</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/adote" class="nav-link" routerLinkActive="active">Realizar Ocorrência</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<ng-content></ng-content>
+
+<!-- Footer -->
+<footer class="footer bg-dark">
+  <div class="container text-center pt-2">
+    <span class="text-white font-italic">Todos os direitos reservados © 2024</span>
+  </div>
+</footer>
