@@ -29,6 +29,7 @@ export class LoginScreenComponent implements OnInit {
         return ''
       })
     ).subscribe(resp => {
+      this.router.navigate(['/home']);
     })
   }
 
