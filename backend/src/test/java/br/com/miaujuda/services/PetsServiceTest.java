@@ -35,41 +35,43 @@ public class PetsServiceTest {
     public void testFindAll() {
         // Arrange
         Pets pet1 = new Pets();
-        pet1.setName("Buddy"); // Definindo o nome
+        pet1.setName("Buddy");
         Pets pet2 = new Pets();
-        pet2.setName("Max"); // Definindo o nome
+        pet2.setName("Max");
         when(petsRepository.findAll()).thenReturn(Arrays.asList(pet1, pet2));
 
         // Act
-        List<PetsDTO> pets = petsService.findAll();
+        List<PetsDTO> pets = petsService.findAll();  // Aqui o retorno será uma lista de PetsDTO
 
         // Assert
         assertEquals(2, pets.size());
+        assertEquals("Buddy", pets.get(0).getName());  // Verificando que o primeiro pet é Buddy
+        assertEquals("Max", pets.get(1).getName());    // Verificando que o segundo pet é Max
     }
 
     @Test
     public void testFindById() {
         // Arrange
         Pets pet = new Pets();
-        pet.setId(1L); // Definindo o ID
-        pet.setName("Buddy"); // Definindo o nome
+        pet.setId(1L);
+        pet.setName("Buddy");
         when(petsRepository.findById(1L)).thenReturn(Optional.of(pet));
 
         // Act
-        Optional<Pets> foundPet = petsService.findById(1L);
+        PetsDTO foundPet = petsService.findById(1L);  // Retorna um PetsDTO
 
         // Assert
-        assertTrue(foundPet.isPresent());
-        assertEquals("Buddy", foundPet.get().getName());
+        assertNotNull(foundPet);
+        assertEquals("Buddy", foundPet.getName());
     }
 
     @Test
     public void testSave() {
         // Arrange
         Pets pet = new Pets();
-        pet.setId(1L); // Definindo o ID
-        pet.setName("Buddy"); // Definindo o nome
-        when(petsRepository.save(any(Pets.class))).thenReturn(pet); // Retornando o mesmo objeto
+        pet.setId(1L);
+        pet.setName("Buddy");
+        when(petsRepository.save(any(Pets.class))).thenReturn(pet);
 
         // Act
         Pets savedPet = petsService.save(pet);

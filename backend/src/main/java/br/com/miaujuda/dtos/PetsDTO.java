@@ -4,64 +4,90 @@ import java.io.Serializable;
 
 public class PetsDTO implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	private Long id;
-	private String name;
-	private String gender;
-    private String status;
-	private String address;
-	private String observation;
-	private String pet;
-	private String username;
-	public Long getId() {
+    private static final long serialVersionUID = 1L;
+
+    private Long id;
+    private String txPet;        
+    private String txSx;         
+    private String endereco;     
+    private String txObs;       
+    private String txStatus;       
+    private String petImage;    
+    private Long userId;        
+
+    // Getters e Setters
+
+    public String getTxPet() {
+        return txPet;
+    }
+
+    public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+
+	public void setTxPet(String txPet) {
+        this.txPet = txPet;
+    }
+
+    public String getTxSx() {
+        return txSx;
+    }
+
+    public void setTxSx(String txSx) {
+        this.txSx = txSx;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getTxObs() {
+        return txObs;
+    }
+
+    public void setTxObs(String txObs) {
+        this.txObs = txObs;
+    }
+    
+    public String getTxStatus() {
+		return txStatus;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setTxStatus(String txStatus) {
+		this.txStatus = txStatus;
 	}
-	public String getGender() {
-		return gender;
+
+	public String getPetImage() {
+        return petImage;
+    }
+
+    public void setPetImage(String petImage) {
+        this.petImage = petImage;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+	@Override
+	public String toString() {
+		return "PetsDTO [id=" + id + ", txPet=" + txPet + ", txSx=" + txSx + ", endereco=" + endereco + ", txObs="
+				+ txObs + ", txStatus=" + txStatus + ", petImage=" + petImage + ", userId=" + userId + "]";
 	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getObservation() {
-		return observation;
-	}
-	public void setObservation(String observation) {
-		this.observation = observation;
-	}
-	public String getPet() {
-		return pet;
-	}
-	public void setPet(String pet) {
-		this.pet = pet;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	
-	
+
+    
+
+    
 }

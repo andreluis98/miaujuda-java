@@ -2,7 +2,6 @@ package br.com.miaujuda.serices;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,102 +10,152 @@ import org.springframework.stereotype.Service;
 import br.com.miaujuda.dtos.PetsDTO;
 import br.com.miaujuda.exceptions.ResourceNotFoundException;
 import br.com.miaujuda.model.Pets;
+import br.com.miaujuda.model.User;
 import br.com.miaujuda.repository.PetRepository;
 
 @Service
 public class PetsServices {
 
-	private Logger logger = Logger.getLogger(PetsServices.class.getName());
-	
-	@Autowired
-	PetRepository repository;
-
-	// List all Pets
+    @Autowired
+    PetRepository repository;
+    
+    @Autowired
+    private UserService userService;
     public List<PetsDTO> findAll() {
-        logger.info("Finding All Pets");
         return repository.findAll().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
-    
-    // List Pets by Id
-    public Optional<Pets> findById(Long pets) {
-        logger.info("Finding Pets by Id");
-        return repository.findById(pets);
+
+    public PetsDTO findById(Long id) {
+        Pets pet = repository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para este ID!"));
+        return convertToDTO(pet);
     }
-    
-    // List by name of Pets
+
     public List<PetsDTO> findByPet(String pet) {
-        logger.info("Finding clients by pets");
         String normalizedInput = pet.replaceAll("\\s+", "").toLowerCase();
         List<Pets> pets = repository.findAll();
         List<PetsDTO> filteredPets = pets.stream()
-        		 .filter(petss -> petss.getPet().replaceAll("\\s+", "").toLowerCase().contains(normalizedInput))
+                .filter(petss -> petss.getPet().replaceAll("\\s+", "").toLowerCase().contains(normalizedInput))
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
 
         if (filteredPets.isEmpty()) {
-            throw new ResourceNotFoundException("No records found for this Razao Social!");
+            throw new ResourceNotFoundException("No records found for this pet!");
         }
-        
+
         return filteredPets;
     }
     
-    // Create Pet
-    public PetsDTO create(Pets pets) throws Exception {
-        logger.info("Creating one Pet");
-        Pets savedPets = repository.save(pets);
-        return convertToDTO(savedPets);
+    public PetsDTO create(PetsDTO petsDTO) throws Exception {
+    	System.out.println("PetsDTO" + petsDTO);
+        if (petsDTO.getUserId() == null) {
+            throw new IllegalArgumentException("User ID must not be null");
+        }
+        if (petsDTO.getTxPet() == null || petsDTO.getTxPet().isEmpty()) {
+            throw new IllegalArgumentException("Pet type must not be null or empty");
+        }
+        if (petsDTO.getEndereco() == null || petsDTO.getEndereco().isEmpty()) {
+            throw new IllegalArgumentException("Pet address must not be null or empty");
+        }
+        if (petsDTO.getTxSx() == null || petsDTO.getTxSx().isEmpty()) {
+            throw new IllegalArgumentException("Pet gender must not be null or empty");
+        }
+
+        Pets pet = convertToEntity(petsDTO);
+
+        User user = userService.findById(petsDTO.getUserId());
+//                .orElseThrow(() -> new Exception("Usuário não encontrado"));
+
+        pet.setUser(user);
+
+        Pets savedPet = repository.save(pet);
+        return convertToDTO(savedPet);
     }
-    
-    // Edit Pet
-    public PetsDTO update(Pets pets) {
-        logger.info("Updating one Pets");
-        var entity = repository.findById(pets.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 
-            entity.setName(pets.getName());
-            entity.setGender(pets.getGender());
-            entity.setAddress(pets.getAddress());
-            entity.setObservation(pets.getObservation());
-            entity.setPet(pets.getPet());
-            entity.setStatus(pets.getStatus());
-            entity.setUsername(pets.getUsername()); 
 
-            Pets updatedPets = repository.save(entity);
-            return convertToDTO(updatedPets);
+
+
+
+    public PetsDTO update(PetsDTO petsDTO) throws Exception {
+        
+        if (petsDTO.getUserId() == null) {
+            throw new IllegalArgumentException("ID do usuário não pode ser nulo.");
+        }
+        if (petsDTO.getTxPet() == null || petsDTO.getTxPet().isEmpty()) {
+            throw new IllegalArgumentException("O tipo do pet não pode ser nulo ou vazio.");
+        }
+        if (petsDTO.getEndereco() == null || petsDTO.getEndereco().isEmpty()) {
+            throw new IllegalArgumentException("O endereço do pet não pode ser nulo ou vazio.");
+        }
+        if (petsDTO.getTxSx() == null || petsDTO.getTxSx().isEmpty()) {
+            throw new IllegalArgumentException("O gênero do pet não pode ser nulo ou vazio.");
+        }
+
+        try {
+            Pets pet = convertToEntity(petsDTO);
+            Pets existingPet = repository.findById(pet.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Nenhum registro encontrado para este ID!"));
+
+            existingPet.setPet(petsDTO.getTxPet());
+            existingPet.setGender(petsDTO.getTxSx());
+            existingPet.setAddress(petsDTO.getEndereco());
+            existingPet.setObservation(petsDTO.getTxObs());
+            existingPet.setStatus(petsDTO.getTxStatus());
+            existingPet.setPetImage(petsDTO.getPetImage());
+
+            
+            Pets updatedPet = repository.save(existingPet);
+            
+            System.out.println("Pet atualizado com sucesso. ID: " + updatedPet.getId());
+            return convertToDTO(updatedPet);
+
+        } catch (IllegalArgumentException e) {
+            System.err.println("Erro de validação: " + e.getMessage());
+            throw e; 
+
+        } catch (Exception e) {
+            System.err.println("Erro inesperado ao atualizar o pet: " + e.getMessage());
+            throw new Exception("Erro ao atualizar o pet. Tente novamente mais tarde.");
+        }
     }
 
-	
-    // Delete Clients
+
+
     public void delete(Long id) {
-        logger.info("Deleting one Pets");
-        var entity = repository.findById(id)
-        		 .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));;
-        		 repository.delete(entity); 
+        Pets pet = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+        repository.delete(pet);
     }
 
-	//Login
-    public Pets login(String username, String password) {
-    	return repository.findByUsernameAndPassword(username, password);
-    }
-    
-    public Pets save(Pets pet) {
-        return repository.save(pet);
-    }
-    
-    // Convert model to DTO
-    private PetsDTO convertToDTO(Pets pets) {
+    private PetsDTO convertToDTO(Pets pet) {
         PetsDTO dto = new PetsDTO();
-        dto.setId(pets.getId());
-        dto.setName(pets.getName());
-        dto.setGender(pets.getGender());
-        dto.setStatus(pets.getStatus());
-        dto.setAddress(pets.getAddress());
-        dto.setObservation(pets.getObservation());
-        dto.setPet(pets.getPet());
-        dto.setUsername(pets.getUsername());
+        dto.setId(pet.getId());
+        dto.setTxPet(pet.getPet());
+        dto.setTxSx(pet.getGender());
+        dto.setEndereco(pet.getAddress());
+        dto.setTxObs(pet.getObservation());
+        dto.setUserId(pet.getUser().getId());
+        dto.setPetImage(pet.getPetImage());
+        dto.setTxStatus(pet.getStatus());
+
         return dto;
+    }
+
+
+    private Pets convertToEntity(PetsDTO dto) {
+        Pets pet = new Pets();
+        pet.setId(dto.getId());
+        pet.setName(dto.getTxPet());
+        pet.setGender(dto.getTxSx());
+        pet.setStatus(dto.getTxStatus());
+        pet.setAddress(dto.getEndereco());
+        pet.setObservation(dto.getTxObs());
+        pet.setPet(dto.getTxPet());
+        pet.setPetImage(dto.getPetImage());
+
+        return pet;
     }
 
 }

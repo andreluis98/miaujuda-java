@@ -30,37 +30,47 @@ public class PetsContoller {
     @Autowired
     private PetsServices service;
 
-	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<PetsDTO> findByAll() {
-		return service.findAll();
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<PetsDTO> findByAll() {
+        return service.findAll();
     }
-	
+
     @GetMapping(value = "/{pet}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<PetsDTO> findByPet(@PathVariable(value = "pet") String pet){
-    	return service.findByPet(pet); 
-	}
+    public List<PetsDTO> findByPet(@PathVariable(value = "pet") String pet) {
+        return service.findByPet(pet);
+    }
     
     @GetMapping(value = "/mat/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Pets> findById(@PathVariable(value = "id") Long id){
-    	return service.findById(id); 
+    public PetsDTO findById(@PathVariable(value = "id") Long id) {
+        return service.findById(id);
     }
-	
+
+    
     @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public PetsDTO create(@RequestBody Pets pet) throws Exception {
-        return service.create(pet);
+    public ResponseEntity<?> create(@RequestBody PetsDTO petsDTO) {
+        try {
+            PetsDTO createdPet = service.create(petsDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdPet);
+        } catch (Exception e) {
+          
+            System.err.println("Erro ao criar o pet: " + e.getMessage());
+            e.printStackTrace();
+
+            
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao criar o pet: " + e.getMessage());
+        }
     }
-	
-    
+
     @PutMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public PetsDTO update(@RequestBody Pets pet) throws Exception {
-        return service.update(pet);
+    public PetsDTO update(@RequestBody PetsDTO petsDTO) throws Exception {
+        return service.update(petsDTO);
     }
-	
-    
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Map<String, String>> delete(@PathVariable(value = "id") Long id) throws Exception {
         service.delete(id);
@@ -68,38 +78,5 @@ public class PetsContoller {
         response.put("message", "Pet excluído com sucesso.");
         return ResponseEntity.ok(response);
     }
-    
-    //Login
-    @PostMapping(
-            value = "/login",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Map<String, String>> login(@RequestBody LoginDTO loginDTO) {
-        System.out.println("Corpo da requisição recebido: " + loginDTO);
-        System.out.println("Username: " + loginDTO.getUsername());
-        System.out.println("Password: " + loginDTO.getPassword());
-        Map<String, String> response = new HashMap<>();
 
-        Pets authenticatedUser = service.login(loginDTO.getUsername(), loginDTO.getPassword());
-
-//        System.out.println("Username: " + loginDTO.getUsername());
-//        System.out.println("Password: " + loginDTO.getPassword());
-
-
-        
-        if (authenticatedUser != null) {
-            if ("ativo".toUpperCase().equals(authenticatedUser.getStatus())) {
-                response.put("message", "Login bem-sucedido.");
-                return ResponseEntity.ok(response);
-            } else {
-                response.put("message", "Usuário inativo.");
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-            }
-        } else {
-            response.put("message", "Usuário ou senha incorretos.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-        }
-    }
-
-	
 }

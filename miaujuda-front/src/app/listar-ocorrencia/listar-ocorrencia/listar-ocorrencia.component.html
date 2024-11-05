@@ -1,0 +1,35 @@
+<app-menu>
+    <div>
+      <main>
+        <div class="d-flex align-items-center text-center text-white bg-imagem">
+          <div class="container-fluid">
+            <p>Ajude a Salvar uma vida</p>
+          </div>
+        </div>
+  
+        <section class="container">
+          <div class="row mt-4 md-4">
+            <div class="col-md-12 shadow p-3 mb-5 bg-white rounded">
+              <h2 class="text-warning">Lista de Ocorrências</h2>
+            </div>
+          </div>
+        </section>
+  
+        <section class="container">
+          <div class="row">
+            <div class="col-md-4" *ngFor="let ocorrencia of ocorrencias">
+              <div class="card shadow p-3 mb-5 bg-white rounded" style="width: 18rem;">
+                <img [src]="ocorrencia.petImage" class="card-img-top" alt="Imagem da Ocorrência">
+                <div class="card-body">
+                  <h5 class="card-title text-warning">{{ ocorrencia.txPet }}</h5>
+                  <p class="card-text">{{ ocorrencia.txObs }}</p>
+                  <a [routerLink]="['/ocorrencias', ocorrencia.id]" class="btn btn-primary">Detalhes</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </app-menu>
+  
