@@ -8,140 +8,135 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name= "pets")
-public class Pets implements Serializable{
+@Table(name = "pets")
+public class Pets implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(nullable = false, length = 80)
-	private String name;
-	
-	@Column(nullable = false)
-	private String gender;
-	
-	@Column(nullable = false)
-	private String status;
-	
-	@Column(nullable = false)
-	private String address;
-	
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, length = 80)
+    private String name;
+
     @Column(nullable = false)
-    private String observation; 
-    
+    private String gender;
+
     @Column(nullable = false)
-    private String pet; 
-    
+    private String status;
+
     @Column(nullable = false)
-    private String username;
-    
-	@Column(nullable = false)
-	private String password;
+    private String address;
 
-	public Long getId() {
-		return id;
-	}
+    @Column(nullable = false)
+    private String observation;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(nullable = false)
+    private String pet;
 
-	public String getName() {
-		return name;
-	}
+    @Column(name = "pet_image") 
+    private String petImage; 
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-	public String getGender() {
-		return gender;
-	}
+    // Getters e Setters
+    public Long getId() {
+        return id;
+    }
 
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getStatus() {
-		return status;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getGender() {
+        return gender;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
-	public String getObservation() {
-		return observation;
-	}
+    public String getStatus() {
+        return status;
+    }
 
-	public void setObservation(String observation) {
-		this.observation = observation;
-	}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public String getPet() {
-		return pet;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setPet(String pet) {
-		this.pet = pet;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
+    public String getObservation() {
+        return observation;
+    }
 
+    public void setObservation(String observation) {
+        this.observation = observation;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public String getPet() {
+        return pet;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setPet(String pet) {
+        this.pet = pet;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPetImage() { // Getter para a imagem do pet
+        return petImage;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPetImage(String petImage) { // Setter para a imagem do pet
+        this.petImage = petImage;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(address, gender, id, name, observation, password, pet, status, username);
-	}
+    public User getUser() {
+        return user;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Pets other = (Pets) obj;
-		return Objects.equals(address, other.address) && Objects.equals(gender, other.gender)
-				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
-				&& Objects.equals(observation, other.observation) && Objects.equals(password, other.password)
-				&& Objects.equals(pet, other.pet) && Objects.equals(status, other.status)
-				&& Objects.equals(username, other.username);
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
- 
-	
-    
-    
+    @Override
+    public int hashCode() {
+        return Objects.hash(address, gender, id, name, observation, pet, petImage, status);
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Pets other = (Pets) obj;
+        return Objects.equals(address, other.address) && Objects.equals(gender, other.gender)
+                && Objects.equals(id, other.id) && Objects.equals(name, other.name)
+                && Objects.equals(observation, other.observation) && Objects.equals(pet, other.pet)
+                && Objects.equals(petImage, other.petImage) && Objects.equals(status, other.status);
+    }
 }

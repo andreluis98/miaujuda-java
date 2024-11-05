@@ -1,0 +1,121 @@
+<!-- <app-menu>
+  <section>
+    <form (ngSubmit)="onSubmit()" #petsForm="ngForm">
+      <div>
+        <p>Qual o pets?</p>
+        <input type="text" placeholder="Gato ou Cachorro?" name="txpets" [(ngModel)]="pets.txpets" required />
+      </div>
+
+      <div>
+        <label for="fname">Endereço que o pets se encontra</label><br>
+        <input type="text" placeholder="Cep" name="endereco" [(ngModel)]="pets.endereco" required />
+        <input type="text" placeholder="Rua" name="endereco" [(ngModel)]="pets.endereco" required />
+        <input type="text" placeholder="Complemento" name="endereco" [(ngModel)]="pets.endereco" required />
+      </div>
+
+      <div>
+        <p>Qual o Sexo do pets?</p>
+        <input type="text" placeholder="Macho ou Fêmea?" name="txSx" [(ngModel)]="pets.txSx" required />
+      </div>
+
+      <div>
+        <input type="text" placeholder="Observações" name="txObs" [(ngModel)]="pets.txObs" />
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-primary" [disabled]="!petsForm.valid">Realizar Ocorrência</button>
+      </div>
+    </form>
+  </section>
+</app-menu> -->
+<!-- <app-menu>
+  <section>
+    <form (ngSubmit)="onSubmit()" #petsForm="ngForm">
+      <div>
+        <p>Qual o pets?</p>
+        <input type="text" placeholder="Gato ou Cachorro?" name="txpets" [(ngModel)]="pets.txpets" required />
+      </div>
+
+      <div>
+        <label for="fname">Endereço que o pets se encontra</label><br>
+        <input type="text" placeholder="Endereço" name="endereco" [(ngModel)]="pets.endereco" readonly required />
+        <button type="button" class="btn btn-secondary" (click)="getCurrentLocation()">Usar Localização Atual</button>
+      </div>
+
+      <div>
+        <p>Qual o Sexo do pets?</p>
+        <input type="text" placeholder="Macho ou Fêmea?" name="txSx" [(ngModel)]="pets.txSx" required />
+      </div>
+
+      <div>
+        <input type="text" placeholder="Observações" name="txObs" [(ngModel)]="pets.txObs" />
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-primary" [disabled]="!petsForm.valid">Realizar Ocorrência</button>
+      </div>
+    </form>
+  </section>
+</app-menu> -->
+
+<app-menu>
+  <section>
+    <form (ngSubmit)="onSubmit()" #petsForm="ngForm">
+      <div>
+        <label for="name">Nome do Pet</label><br>
+        <input type="text" placeholder="Nome" name="name" [(ngModel)]="pets.name" required />
+      </div>
+
+      <div>
+        <p>Qual o pets?</p>
+        <label>
+          <input type="radio" name="txpets" [(ngModel)]="pets.txpets" value="Gato" required />
+          Gato
+        </label>
+        <label>
+          <input type="radio" name="txpets" [(ngModel)]="pets.txpets" value="Cachorro" required />
+          Cachorro
+        </label>
+      </div>
+
+      <div>
+        <label for="fname">Endereço que o pets se encontra</label><br>
+        <input type="text" placeholder="Endereço" name="endereco" [(ngModel)]="pets.endereco" required />
+        <button type="button" class="btn btn-secondary" (click)="getCurrentLocation()">Usar Localização Atual</button>
+      </div>
+
+      <div>
+        <p>Qual o Sexo do pets?</p>
+        <label>
+          <input type="radio" name="txSx" [(ngModel)]="pets.txSx" value="Macho" required />
+          Macho
+        </label>
+        <label>
+          <input type="radio" name="txSx" [(ngModel)]="pets.txSx" value="Fêmea" required />
+          Fêmea
+        </label>
+      </div>
+
+      <div>
+        <label for="status">Status</label><br>
+        <input type="text" placeholder="Status" name="status" [(ngModel)]="pets.status" required />
+      </div>
+
+      <div>
+        <label>Imagem do pets</label><br>
+        <input type="file" name="petsImage" (change)="onFileSelected($event)" />
+      </div>
+
+      <div>
+        <input type="text" placeholder="Observações" name="txObs" [(ngModel)]="pets.txObs" />
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-primary" [disabled]="!petsForm.valid">Realizar Ocorrência</button>
+      </div>
+    </form>
+  </section>
+</app-menu>
+
+
+

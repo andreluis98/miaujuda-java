@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ServiceService {
-    private baseUrl = 'http://localhost:8080/pets';
+    private baseUrl = 'http://localhost:8080';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -20,72 +20,82 @@ export class ServiceService {
         password: password
       }
   
-      return this.httpClient.post(`${this.baseUrl}/login`, body)
+      return this.httpClient.post(`${this.baseUrl}/api/users/login`, body)
+    }
+
+    //Register Users
+    getRegister(
+      username: string,
+      password: string
+    ) {
+      const body = {
+        username: username,
+        password: password
+      }
+  
+      return this.httpClient.post(`${this.baseUrl}/api/users/register`, body)
     }
 
   //List the all pets
   getPetsList(): Observable<any>{
-    return this.httpClient.get<any>(`${this.baseUrl}`)
+    return this.httpClient.get<any>(`${this.baseUrl}/pets`)
   }
   
   //Search by Enrollment
   getPetsByMat(mat: number){  
-    return this.httpClient.get(`${this.baseUrl}/mat/${mat}`)
+    return this.httpClient.get(`${this.baseUrl}/pets/mat/${mat}`)
   }
 
   //Create new pet
   createdPet(
-    name: string,
-    gender: string,
-    status: string,
-    address: string,
-    observation: string,
-    pet: string,
-    usename: string,
-    password: string,
+    txPet: string,
+    txSx: string,
+    endereco: string,
+    txStatus: string,
+    txObs: string,
+    petImage: string,
+    userId: string,
   ) {
     const body = {
-      name: name,
-      gender: gender,
-      status: status,
-      address: address,
-      observation: observation,
-      pet: pet,
-      usename: usename,
-      password: password,
+      // name: name,
+      txPet: txPet,
+      txSx: txSx, 
+      endereco: endereco,
+      txStatus: txStatus,
+      txObs: txObs,
+      petImage: petImage,
+      userId: userId,
     }
-    return this.httpClient.post(`${this.baseUrl}`, body)
+    return this.httpClient.post(`${this.baseUrl}/pets`, body)
   }
 
   //Update Pet
   updatePet(
     id: number,
-    name?: string,
-    gender?: string,
-    status?: string,
-    address?: string,
-    observation?: string,
-    pet?: string,
-    usename?: string,
-    password?: string,
+    txPet: string,
+    txSx: string,
+    endereco: string,
+    txStatus: string,
+    txObs: string,
+    petImage: string,
+    userId: string,
   ) {
     const body = {
       id: id,
-      name: name,
-      gender: gender,
-      status: status,
-      address: address,
-      observation: observation,
-      pet: pet,
-      usename: usename,
-      password: password,
+      txPet: txPet,
+      txSx: txSx,
+      endereco: endereco,
+      txStatus: txStatus,
+      txObs: txObs,
+      petImage: petImage,
+      userId: userId,
     }
-    return this.httpClient.put(`${this.baseUrl}`, body)
+    return this.httpClient.put(`${this.baseUrl}/pets`, body)
   }
 
     //Delete Pet
     deletePet(id: number): Observable<any> {
-      return this.httpClient.delete(`${this.baseUrl}/${id}`)
+      return this.httpClient.delete(`${this.baseUrl}/pets/${id}`)
     }
 
 }

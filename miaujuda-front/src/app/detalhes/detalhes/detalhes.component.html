@@ -1,0 +1,79 @@
+<app-menu>
+  <div class="container mt-4">
+    <div *ngIf="pet">
+      <div *ngIf="!isEditing">
+        <div class="card shadow p-3 mb-5 bg-white rounded">
+          <img [src]="pet.petImage" class="card-img-top" alt="Imagem do Pet">
+          <div class="card-body">
+            <h2 class="text-warning">{{ pet.txPet }}</h2>
+            <p><strong>Sexo:</strong> {{ pet.txSx }}</p>
+            <p><strong>Endereço:</strong> {{ pet.endereco }}</p>
+            <p><strong>Status:</strong> {{ pet.txStatus }}</p>
+            <p><strong>Observação:</strong> {{ pet.txObs }}</p>
+            <div class="buttons">
+              <button class="btn btn-warning" (click)="editPet()">Editar</button>
+              <button class="btn btn-danger" (click)="deletePet()">Excluir</button>
+            </div>
+          </div>
+          <button class="btn btn-primary" (click)="voltar()">Voltar</button>
+        </div>
+      </div>
+
+      <div *ngIf="isEditing">
+        <form (ngSubmit)="onSubmit()" #petsForm="ngForm">
+          <h3>Editar Pet</h3>
+          <input type="hidden" [(ngModel)]="pet.id" name="id">
+
+          <div class="mb-3">
+            <p>Qual o Pet?</p>
+            <label>
+              <input type="radio" name="txPet" [(ngModel)]="pet.txPet" value="Gato" required />
+              Gato
+            </label>
+            <label>
+              <input type="radio" name="txPet" [(ngModel)]="pet.txPet" value="Cachorro" required />
+              Cachorro
+            </label>
+          </div>
+
+          <div class="mb-3">
+            <p>Qual o Sexo do Pet?</p>
+            <label>
+              <input type="radio" name="txSx" [(ngModel)]="pet.txSx" value="Macho" required />
+              Macho
+            </label>
+            <label>
+              <input type="radio" name="txSx" [(ngModel)]="pet.txSx" value="Fêmea" required />
+              Fêmea
+            </label>
+          </div>
+
+          <div class="mb-3">
+            <label for="endereco" class="form-label">Endereço</label>
+            <input type="text" class="form-control" id="endereco" [(ngModel)]="pet.endereco" name="endereco" required />
+            <button type="button" class="btn btn-secondary mt-2" (click)="getCurrentLocation()">Usar Localização Atual</button>
+          </div>
+
+          <div class="mb-3">
+            <label for="txStatus" class="form-label">Status</label>
+            <input type="text" class="form-control" id="txStatus" [(ngModel)]="pet.txStatus" name="txStatus" required>
+          </div>
+
+          <div class="mb-3">
+            <label>Imagem do Pet</label><br>
+            <img *ngIf="image" [src]="image" alt="Imagem Atual do Pet" style="width: 150px; height: auto; margin-bottom: 10px;">
+            <input type="file" name="petsImage" (change)="onFileSelected($event)" />
+          </div>
+
+          <div class="mb-3">
+            <label for="txObs" class="form-label">Observação</label>
+            <textarea class="form-control" id="txObs" [(ngModel)]="pet.txObs" name="txObs"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-success" [disabled]="!petsForm.valid">Salvar</button>
+          <button class="btn btn-secondary" (click)="isEditing = false">Cancelar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</app-menu>
