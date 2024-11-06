@@ -66,3 +66,7 @@
 footer{
     height: 50px;
 }
+
+.nav-item.logout{
+ cursor: pointer;
+}

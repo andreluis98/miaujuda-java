@@ -98,7 +98,6 @@ export class PetOcorrenciaComponent {
   }
 
   createPet(
-    // name: string,
     pet: string,
     gender: string,
     address: string,

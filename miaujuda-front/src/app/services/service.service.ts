@@ -25,10 +25,14 @@ export class ServiceService {
 
     //Register Users
     getRegister(
+      name: string,
+      email: string,
       username: string,
       password: string
     ) {
       const body = {
+        name: name,
+        email: email,
         username: username,
         password: password
       }
@@ -57,7 +61,6 @@ export class ServiceService {
     userId: string,
   ) {
     const body = {
-      // name: name,
       txPet: txPet,
       txSx: txSx, 
       endereco: endereco,
