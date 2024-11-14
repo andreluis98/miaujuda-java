@@ -1,5 +1,6 @@
 package br.com.miaujuda.controllers;
 
+import br.com.miaujuda.MiaujudaApplication;
 import br.com.miaujuda.model.User;
 import br.com.miaujuda.repository.UserRepository;
 import br.com.miaujuda.repository.PetRepository;
@@ -14,7 +15,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
+@SpringBootTest(classes = MiaujudaApplication.class)
 @AutoConfigureMockMvc
 class PetsControllerIntegrationTest {
 
