@@ -42,7 +42,7 @@ class PetsControllerIntegrationTest {
     void testCreatePet() throws Exception {
         User user = createUser();
 
-        String json = "{\"txPet\":\"kalos\", \"txSx\":\"Male\", \"txStatus\":\"ATIVO\", \"endereco\":\"216 Street\", \"txObs\":\"Friendly\", \"userId\":1}";
+        String json = "{\"txPet\":\"kaltos\", \"txSx\":\"Male\", \"txStatus\":\"ATIVO\", \"endereco\":\"2116 Street\", \"txObs\":\"Friendly\", \"userId\":1}";
 
 
         MvcResult result = mockMvc.perform(post("/pets")
