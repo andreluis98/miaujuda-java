@@ -14,7 +14,7 @@ jobs:
 
     services:
       db:
-        image: postgres:13
+        image: postgres:12
         env:
           POSTGRES_DB: miaujuda
           POSTGRES_USER: postgres
@@ -33,6 +33,14 @@ jobs:
 
       - name: Instalar Maven
         run: sudo apt-get install maven
+
+      - name: Esperar PostgreSQL ficar disponível
+        run: |
+          while ! pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Aguardando PostgreSQL..."
+            sleep 2
+          done
+          echo "PostgreSQL está pronto!"
 
       - name: Construir e testar backend
         run: |
