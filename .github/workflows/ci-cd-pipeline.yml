@@ -14,7 +14,7 @@ jobs:
 
     services:
       db:
-        image: postgres:12
+        image: postgres:16
         env:
           POSTGRES_DB: miaujuda
           POSTGRES_USER: postgres
@@ -36,9 +36,16 @@ jobs:
 
       - name: Esperar PostgreSQL ficar disponível
         run: |
+          TIMEOUT=30
+          ELAPSED_TIME=0
           while ! pg_isready -h localhost -p 5432 -U postgres; do
-            echo "Aguardando PostgreSQL..."
+            if [ $ELAPSED_TIME -ge $TIMEOUT ]; then
+              echo "Timeout: PostgreSQL não ficou disponível após $TIMEOUT segundos."
+              exit 1
+            fi
+            echo "Aguardando PostgreSQL... ($ELAPSED_TIME/$TIMEOUT)"
             sleep 2
+            ELAPSED_TIME=$((ELAPSED_TIME+2))
           done
           echo "PostgreSQL está pronto!"
 
