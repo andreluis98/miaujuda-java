@@ -2,15 +2,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      db:
-        image: postgres:16
-        env:
-          POSTGRES_DB: miaujuda
-          POSTGRES_USER: miaujuda_user
-          POSTGRES_PASSWORD: h2IDVpGF0GjYwHu8fzTs13gWeLbh3PCC
-        options: --health-cmd="pg_isready -h dpg-csr7e7hu0jms73cjh3t0-a.virginia-postgres.render.com -p 5432 -U miaujuda_user" --health-interval=10s --health-timeout=5s --health-retries=3
-
     steps:
       - name: Checar código
         uses: actions/checkout@v2
