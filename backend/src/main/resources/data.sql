@@ -1,12 +1,19 @@
 INSERT INTO users (name, email, username, password)
-SELECT 'John Doe', 'john@example.com', 'johndoe', 'securePassword123'
-WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'johndoe');
+SELECT 'Doe J', 'doe@example.com', 'doejohn', 'securePassword12345'
+WHERE NOT EXISTS (
+    SELECT 1 FROM users WHERE username = 'doejohn'
+    OR email = 'doe@example.com'
+    OR name = 'Doe J'
+);
+
 
 
 INSERT INTO pets (name, gender, status, address, observation, pet, user_id)
-SELECT 'Rex', 'Macho', 'Perdido', 'Rua A, 123', 'Cão amigável', 'Cachorro',
-       (SELECT id FROM users WHERE username = 'johndoe')
+SELECT 'Rexxxx', 'Macho', 'Perdido', 'Rua B, 123', 'Cão amigável', 'Cachorro',
+       (SELECT id FROM users WHERE username = 'doejohn')
 WHERE NOT EXISTS (
-    SELECT 1 FROM pets WHERE name = 'Rex' 
-    AND user_id = (SELECT id FROM users WHERE username = 'johndoe')
+    SELECT 1 FROM pets
+    WHERE (name, address) = ('Rexxxx', 'Rua B, 123')
 );
+
+

@@ -1,119 +1,47 @@
 <div class="container mt-5">
-    <h1> Bem vindo </h1>
-    <h2></h2>
-    <br />
-  
-    <form #form="ngForm" (ngSubmit)="onSubmit()">
-      <!-- DADOS PESSOAIS-->
-      <fieldset class="border p-3">
-        <legend class="w-auto">Dados Pessoais</legend>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="nome">Nome:</label>
-            <input type="text" class="form-control" id="nome" name="nome" [(ngModel)]="user.nome" required />
-          </div>
-          <div class="form-group col-md-6">
-            <label for="sobrenome">Sobrenome:</label>
-            <input type="text" class="form-control" id="sobrenome" name="sobrenome" [(ngModel)]="user.sobrenome" required />
-          </div>
+  <h1 class="text-center">Bem-vindo</h1>
+  <h2 class="text-center">Cadastre seus dados abaixo</h2>
+  <br />
+
+  <form #form="ngForm" (ngSubmit)="onSubmit()">
+    <!-- DADOS PESSOAIS -->
+    <fieldset class="border p-4 mb-4">
+      <legend class="w-auto font-weight-bold">Dados Pessoais</legend>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="nome">Nome:</label>
+          <input type="text" class="form-control" id="nome" name="nome" [(ngModel)]="user.nome" required />
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <label for="nascimento">Nascimento:</label>
-            <div class="form-inline">
-              <input type="text" class="form-control mr-1" name="dia" size="2" maxlength="2" placeholder="DD" [(ngModel)]="user.dia" />
-              <input type="text" class="form-control mr-1" name="mes" size="2" maxlength="2" placeholder="MM" [(ngModel)]="user.mes" />
-              <input type="text" class="form-control" name="ano" size="4" maxlength="4" placeholder="AAAA" [(ngModel)]="user.ano" />
-            </div>
-          </div>
-          <div class="form-group col-md-4">
-            <label for="rg">RG:</label>
-            <input type="text" class="form-control" name="rg" [(ngModel)]="user.rg" />
-          </div>
-          <div class="form-group col-md-4">
-            <label for="cpf">CPF:</label>
-            <div class="form-inline">
-              <input type="text" class="form-control mr-1" name="cpf" size="9" maxlength="9" [(ngModel)]="user.cpf" />
-              <input type="text" class="form-control" name="cpf2" size="2" maxlength="2" [(ngModel)]="user.cpf2" />
-            </div>
-          </div>
-        </div>
-      </fieldset>
-  
-      <br />
-      <!-- ENDEREÇO -->
-      <fieldset class="border p-3">
-        <legend class="w-auto">Dados de Endereço</legend>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="rua">Rua:</label>
-            <input type="text" class="form-control" name="rua" [(ngModel)]="user.rua" />
-          </div>
-          <div class="form-group col-md-2">
-            <label for="numero">Numero:</label>
-            <input type="text" class="form-control" name="numero" size="4" [(ngModel)]="user.numero" />
-          </div>
-          <div class="form-group col-md-4">
-            <label for="bairro">Bairro:</label>
-            <input type="text" class="form-control" name="bairro" [(ngModel)]="user.bairro" />
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="estado">Estado:</label>
-            <select name="estado" class="form-control" [(ngModel)]="user.estado">
-              <option value="ac">Acre</option>
-              <option value="al">Alagoas</option>
-              <!-- Adicione os outros estados aqui -->
-            </select>
-          </div>
-          <div class="form-group col-md-6">
-            <label for="cidade">Cidade:</label>
-            <input type="text" class="form-control" name="cidade" [(ngModel)]="user.cidade" />
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="cep">CEP:</label>
-            <div class="form-inline">
-              <input type="text" class="form-control mr-1" name="cep" size="5" maxlength="5" [(ngModel)]="user.cep" />
-              <input type="text" class="form-control" name="cep2" size="3" maxlength="3" [(ngModel)]="user.cep2" />
-            </div>
-          </div>
-        </div>
-      </fieldset>
-  
-      <br />
-      <!-- DADOS DE LOGIN -->
-      <fieldset class="border p-3">
-        <legend class="w-auto">Dados de Login</legend>
-        <div class="form-group">
+        <div class="form-group col-md-6">
           <label for="email">E-mail:</label>
           <input type="email" class="form-control" name="email" [(ngModel)]="user.email" required />
         </div>
-        <div class="form-group">
-          <label for="imagem">Imagem de perfil:</label>
-          <input type="file" class="form-control-file" name="imagem" (change)="onFileSelected($event)" />
+      </div>
+    </fieldset>
+
+    <!-- DADOS DE LOGIN -->
+    <fieldset class="border p-4 mb-4">
+      <legend class="w-auto font-weight-bold">Dados de Login</legend>
+      <div class="form-group">
+        <label for="login">Login de usuário:</label>
+        <input type="text" class="form-control" name="login" [(ngModel)]="user.login" required />
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="senha">Senha:</label>
+          <input type="password" class="form-control" name="senha" [(ngModel)]="user.senha" required />
         </div>
-        <div class="form-group">
-          <label for="login">Login de usuário:</label>
-          <input type="text" class="form-control" name="login" [(ngModel)]="user.login" required />
+        <div class="form-group col-md-6">
+          <label for="confirmarSenha">Confirme a senha:</label>
+          <input type="password" class="form-control" name="confirmarSenha" [(ngModel)]="user.confirmarSenha" required />
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="senha">Senha:</label>
-            <input type="password" class="form-control" name="senha" [(ngModel)]="user.senha" required />
-          </div>
-          <div class="form-group col-md-6">
-            <label for="confirmarSenha">Confirme a senha:</label>
-            <input type="password" class="form-control" name="confirmarSenha" [(ngModel)]="user.confirmarSenha" required />
-          </div>
-        </div>
-      </fieldset>
-      
-      <br />
-      <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Enviar</button>
+      </div>
+    </fieldset>
+
+    <div class="form-row justify-content-center">
+      <button type="submit" class="btn btn-primary mr-3" [disabled]="!form.valid">Enviar</button>
       <button type="reset" class="btn btn-secondary">Limpar</button>
-    </form>
-  </div>
-  
+      <button [routerLink]="['/login']" type="reset" class="btn btn-primary">Voltar</button>
+    </div>
+  </form>
+</div>

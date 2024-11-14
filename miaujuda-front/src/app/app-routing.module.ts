@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginScreenComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'cadastro', component: CadastroFormComponent, canActivate: [AuthGuard] },
+  { path: 'cadastro', component: CadastroFormComponent },
   { path: 'ocorrencia', component: PetOcorrenciaComponent, canActivate: [AuthGuard] },
   { path: 'doe', component: DoeComponent, canActivate: [AuthGuard] },
   { path: 'ocorrencias', component: ListarOcorrenciaComponent, canActivate: [AuthGuard] },

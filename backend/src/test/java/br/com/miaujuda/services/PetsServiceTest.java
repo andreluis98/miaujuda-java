@@ -1,22 +1,19 @@
 package br.com.miaujuda.services;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
+import br.com.miaujuda.dtos.PetsDTO;
+import br.com.miaujuda.model.Pets;
+import br.com.miaujuda.model.User;
+import br.com.miaujuda.repository.PetRepository;
+import br.com.miaujuda.serices.PetsServices;
+import br.com.miaujuda.serices.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.miaujuda.dtos.PetsDTO;
-import br.com.miaujuda.model.Pets;
-import br.com.miaujuda.repository.PetRepository;
-import br.com.miaujuda.serices.PetsServices;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PetsServiceTest {
 
@@ -26,58 +23,44 @@ public class PetsServiceTest {
     @Mock
     private PetRepository petsRepository;
 
+    @Mock
+    private UserService userService;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testFindAll() {
-        // Arrange
-        Pets pet1 = new Pets();
-        pet1.setName("Buddy");
-        Pets pet2 = new Pets();
-        pet2.setName("Max");
-        when(petsRepository.findAll()).thenReturn(Arrays.asList(pet1, pet2));
+    public void testCreatePet() throws Exception {
+        // Setup
+        PetsDTO petsDTO = new PetsDTO();
+        petsDTO.setTxPet("Buuddy");
+        petsDTO.setEndereco("12345 Street");
+        petsDTO.setTxStatus("ATIVO");
+        petsDTO.setTxSx("Male");
+        petsDTO.setTxObs("Test");
+        petsDTO.setUserId(1L);
 
-        // Act
-        List<PetsDTO> pets = petsService.findAll();  // Aqui o retorno será uma lista de PetsDTO
+        User user = new User();
+        user.setId(1L);
 
-        // Assert
-        assertEquals(2, pets.size());
-        assertEquals("Buddy", pets.get(0).getName());  // Verificando que o primeiro pet é Buddy
-        assertEquals("Max", pets.get(1).getName());    // Verificando que o segundo pet é Max
-    }
-
-    @Test
-    public void testFindById() {
-        // Arrange
         Pets pet = new Pets();
-        pet.setId(1L);
-        pet.setName("Buddy");
-        when(petsRepository.findById(1L)).thenReturn(Optional.of(pet));
+        pet.setPet("Buddy");
+        pet.setName("Mel");
+        pet.setUser(user);
 
-        // Act
-        PetsDTO foundPet = petsService.findById(1L);  // Retorna um PetsDTO
-
-        // Assert
-        assertNotNull(foundPet);
-        assertEquals("Buddy", foundPet.getName());
-    }
-
-    @Test
-    public void testSave() {
-        // Arrange
-        Pets pet = new Pets();
-        pet.setId(1L);
-        pet.setName("Buddy");
+        when(userService.findById(1L)).thenReturn(user);
         when(petsRepository.save(any(Pets.class))).thenReturn(pet);
 
-        // Act
-        Pets savedPet = petsService.save(pet);
+ 
+        PetsDTO createdPet = petsService.create(petsDTO);
 
-        // Assert
-        assertEquals("Buddy", savedPet.getName());
-        assertNotNull(savedPet.getId());
+        assertNotNull(createdPet);
+        assertEquals("Buddy", createdPet.getTxPet());
+
+
+        verify(userService).findById(1L);
+        verify(petsRepository).save(any(Pets.class));
     }
 }

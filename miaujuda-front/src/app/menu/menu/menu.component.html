@@ -1,5 +1,5 @@
 <header>
-  <nav class="navbar bg-dark navbar-expand-sm navbar-dark fixed-top">
+  <nav class="navbar bg-dark navbar-expand-sm navbar-dark fixed-top"  *ngIf="isLoggedIn()">
     <!-- Logo -->
     <img class="logo" src="../../../assets/images/IMG-20210824-WA0019.svg" alt="Miaujuda" />
     
@@ -37,6 +37,9 @@
         <li class="nav-item">
           <a routerLink="/ocorrencia" class="nav-link" routerLinkActive="active">Realizar Ocorrência</a>
         </li>
+        <li class="nav-item logout">
+          <a (click)="logout()" class="nav-link">Logout</a>
+      </li>
       </ul>
     </div>
   </nav>
