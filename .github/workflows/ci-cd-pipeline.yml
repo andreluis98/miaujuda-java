@@ -31,6 +31,9 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
+      - name: Garantir permissões de execução para mvnw
+        run: chmod +x ./mvnw
+
       - name: Construir e testar backend
         run: |
           cd backend
