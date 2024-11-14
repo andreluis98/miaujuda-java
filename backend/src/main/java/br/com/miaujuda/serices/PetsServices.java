@@ -140,9 +140,29 @@ public class PetsServices {
         dto.setPetImage(pet.getPetImage());
         dto.setTxStatus(pet.getStatus());
 
+        if (pet.getUser() != null) { // Adicione esta verificação
+            dto.setUserId(pet.getUser().getId());
+        }
+        
         return dto;
     }
 
+//    public PetsDTO convertToDTO(Pets pet) {
+//        PetsDTO dto = new PetsDTO();
+//        dto.setTxPet(pet.getPet());
+//        dto.setTxSx(pet.getGender());
+//        dto.setTxStatus(pet.getStatus());
+//        dto.setEndereco(pet.getAddress());
+//        dto.setTxObs(pet.getObservation());
+//        
+//        if (pet.getUser() != null) { // Adicione esta verificação
+//            dto.setUserId(pet.getUser().getId());
+//        }
+//        return dto;
+//    }
+
+    
+    
 
     private Pets convertToEntity(PetsDTO dto) {
         Pets pet = new Pets();

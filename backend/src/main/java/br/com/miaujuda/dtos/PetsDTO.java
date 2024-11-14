@@ -13,7 +13,8 @@ public class PetsDTO implements Serializable {
     private String txObs;       
     private String txStatus;       
     private String petImage;    
-    private Long userId;        
+    private Long userId;    
+    
 
     // Getters e Setters
 

@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:12-bullseye
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: miaujuda_db  # Nome do banco de dados
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./teste.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "7000:5432"  # Acessível na porta 7000 no host
+
+  java:
+    build: ./backend
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: test  # Defina o perfil de configuração, se necessário
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/miaujuda_db  # URL de conexão com o banco PostgreSQL
+      SPRING_DATASOURCE_USERNAME: postgres  # Usuário do banco de dados
+      SPRING_DATASOURCE_PASSWORD: postgres  # Senha do banco de dados
+    depends_on:
+      - db  # Garante que o banco de dados esteja pronto antes do Java iniciar
+
+  frontend:
+    build: ./miaujuda-front
+    volumes:
+      - ./miaujuda-front/src:/usr/src/app/src
+    ports:
+      - "3000:4200"  # Frontend exposto na porta 3000
+
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "8010:80"  # Nginx exposto na porta 8010
+
+volumes:
+  pgdata:
