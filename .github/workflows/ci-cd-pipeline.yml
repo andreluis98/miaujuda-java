@@ -31,13 +31,13 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Garantir permissões de execução para mvnw
-        run: chmod +x ./mvnw
+      - name: Garantir permissões de execução para mvn
+        run:  ./mvn
 
       - name: Construir e testar backend
         run: |
           cd backend
-          ./mvnw clean install
+          ./mvn clean install
 
       - name: Configurar Node.js
         uses: actions/setup-node@v2
