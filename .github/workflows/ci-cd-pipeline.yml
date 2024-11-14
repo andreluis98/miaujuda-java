@@ -31,13 +31,13 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Garantir permissões de execução para mvn
-        run:  ./mvn
+      - name: Instalar Maven
+        run: sudo apt-get install maven
 
       - name: Construir e testar backend
         run: |
           cd backend
-          ./mvn clean install
+          mvn clean install
 
       - name: Configurar Node.js
         uses: actions/setup-node@v2
