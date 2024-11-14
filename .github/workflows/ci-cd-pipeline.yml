@@ -52,6 +52,6 @@ jobs:
 
       - name: Construir e testar frontend
         run: |
-          cd frontend
+          cd miaujuda-front
           npm install
           npm run build --prod
