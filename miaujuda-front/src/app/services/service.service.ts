@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ServiceService {
-    private baseUrl = 'http://localhost:8080';
+    private baseUrl = 'https://miaujuda-backend.onrender.com';
+    private baseUrlLocal = 'http://localhost:8080';
 
   constructor(private httpClient: HttpClient) { }
 
