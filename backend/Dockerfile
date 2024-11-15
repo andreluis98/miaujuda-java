@@ -1,38 +1,26 @@
-# Etapa 1: Usar a imagem do OpenJDK 21 e instalar o Maven manualmente
+# Usando a imagem base do OpenJDK
 FROM openjdk:21-jdk-slim AS build
 
-# Instalar Maven
+# Atualizando o sistema e instalando o Maven
 RUN apt-get update && apt-get install -y maven
 
-# Definir o diretório de trabalho para o build
+# Definindo o diretório de trabalho no container
 WORKDIR /app
 
-# Copiar o arquivo pom.xml para o container
+# Copiar o arquivo pom.xml
 COPY pom.xml /app/pom.xml
 
-# Verificar o conteúdo do diretório após copiar o pom.xml
-RUN ls -l /app
-
-# Baixar as dependências do projeto
-RUN mvn dependency:go-offline
-
-# Copiar o diretório src do contexto atual para o container
+# Copiar o código-fonte
 COPY src /app/src
 
-# Verificar o conteúdo do diretório após copiar o src
-RUN ls -l /app/src
+# Garantir que as dependências estão disponíveis offline
+RUN mvn dependency:go-offline
 
-# Compilar o projeto e gerar o arquivo JAR
+# Compilando o aplicativo
 RUN mvn clean package -DskipTests -U
 
-# Etapa 2: Usar uma imagem mais leve para executar a aplicação com OpenJDK 21
+# Definindo a imagem final para execução
 FROM openjdk:21-jdk-slim
-
-# Definir o diretório de trabalho para a aplicação
 WORKDIR /app
-
-# Copiar o JAR gerado da etapa anterior para a imagem final
 COPY --from=build /app/target/*.jar backend.jar
-
-# Comando para iniciar a aplicação
 ENTRYPOINT ["java", "-jar", "backend.jar"]
