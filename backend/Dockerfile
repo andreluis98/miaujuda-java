@@ -15,6 +15,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Verificar se o JAR foi gerado corretamente
+RUN echo "Verificando o conteúdo do diretório target:"
 RUN ls -l /app/target
 
 # Segunda etapa: usar uma imagem menor apenas para execução do JAR
@@ -25,6 +26,10 @@ WORKDIR /app
 
 # Copiar o JAR gerado da etapa anterior para a imagem final
 COPY --from=build /app/target/*.jar backend.jar
+
+# Verificar se o JAR foi copiado corretamente
+RUN echo "Verificando se o arquivo JAR foi copiado corretamente:"
+RUN ls -l /app
 
 # Comando para iniciar a aplicação
 ENTRYPOINT ["java", "-jar", "backend.jar"]
