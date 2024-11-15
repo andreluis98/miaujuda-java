@@ -22,35 +22,24 @@
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
 
-# Usar uma imagem mínima
+# Usar uma imagem mínima do Node.js
 FROM node:18-buster-slim
 
 # Crie o diretório de trabalho no container
 WORKDIR /usr/src/app
 
-# Copie o arquivo package.json e package-lock.json primeiro
-COPY package*.json ./
+# Copie o arquivo package.json e package-lock.json da subpasta 'app' para o container
+COPY app/package*.json ./
 
-# Instale as dependências antes de copiar o restante
+# Instale as dependências antes de copiar o restante dos arquivos
 RUN npm install
 
 # Copie o restante dos arquivos da aplicação para o container
-COPY . .
+COPY app/ . 
 
 # Exponha a porta que a aplicação irá usar
 EXPOSE 3000
 
 # Comando para iniciar a aplicação
 CMD ["npm", "start"]
-
-
-
-
-
-
-
-
-
-
-
 
