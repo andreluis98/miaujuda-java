@@ -37,9 +37,6 @@ RUN npm install
 # Copie o restante dos arquivos do projeto para o diretório de trabalho
 COPY . .
 
-# Verifique se o angular.json está presente no diretório de trabalho
-RUN ls -la /usr/src/app/angular.json
-
 # Execute o build (sem a flag --prod)
 RUN npm run build
 
@@ -51,6 +48,7 @@ RUN npm install -g http-server
 
 # Comando para rodar o servidor de produção
 CMD ["http-server", "dist", "-p", "4200"]
+
 
 
 
