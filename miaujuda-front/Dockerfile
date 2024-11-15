@@ -29,10 +29,10 @@ FROM node:18-buster-slim
 WORKDIR /app
 
 # Copiar apenas o package.json e package-lock.json primeiro
-COPY package*.json /app/
+COPY /miaujuda-front/package*.json /app/
 
-# Instalar as dependências do projeto
-RUN npm install
+# Limpar o cache e instalar as dependências do projeto
+RUN npm cache clean --force && npm install --legacy-peer-deps
 
 # Copiar o restante dos arquivos da aplicação
 COPY . /app/
