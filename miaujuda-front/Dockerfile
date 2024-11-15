@@ -26,7 +26,7 @@
 FROM node:18-alpine
 
 # Crie e defina o diretório de trabalho
-WORKDIR /usr/src/app
+WORKDIR /src/app
 
 # Copie os arquivos package.json e package-lock.json para o diretório de trabalho
 COPY miaujuda-front/package*.json ./
@@ -38,7 +38,7 @@ RUN npm install
 COPY . .
 
 # Verifique se o angular.json está presente
-RUN ls -la /usr/src/app/angular.json
+RUN ls -la /src/app/angular.json
 
 # Execute o build (sem a flag --prod)
 RUN npm run build
