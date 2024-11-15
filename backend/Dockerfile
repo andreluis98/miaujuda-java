@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y maven
 WORKDIR /app
 
 # Copiar o arquivo pom.xml para o container
-#COPY ./pom.xml ./pom.xml
+COPY pom.xml /app/pom.xml
 
 # Baixar as dependências do projeto
 RUN mvn dependency:go-offline
@@ -18,7 +18,7 @@ RUN echo "Verificando as dependências Maven:"
 RUN ls -l /root/.m2/repository
 
 # Copiar o código do projeto para o container
-#COPY ./src ./src
+COPY src /app/src
 
 # Compilar o projeto e gerar o arquivo JAR
 RUN mvn clean package -DskipTests -U
