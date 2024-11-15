@@ -29,7 +29,7 @@ FROM node:18-buster-slim
 WORKDIR /usr/src/app
 
 # Copie o arquivo package.json e package-lock.json da subpasta 'app' para o container
-COPY app/package*.json ./
+COPY miaujuda-front/package*.json ./
 
 # Instale as dependências antes de copiar o restante dos arquivos
 RUN npm install
