@@ -22,8 +22,8 @@
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
 
-# Usar a imagem do Node.js como base
-FROM node:18-alpine
+# Usar uma imagem mínima
+FROM node:18-buster-slim
 
 # Definir o diretório de trabalho no container
 WORKDIR /usr/src/app
