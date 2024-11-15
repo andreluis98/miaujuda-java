@@ -22,22 +22,24 @@
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
 
-# Defina a imagem base
-FROM node:18-buster-slim
+# Use a imagem base do Node.js
+FROM node:18-buster-slim AS build
 
-# Crie e defina o diretório de trabalho
+# Defina o diretório de trabalho
 WORKDIR /app
 
-# Copie os arquivos do projeto Angular para o container
+# Copie os arquivos package.json e package-lock.json para o container
 COPY /miaujuda-front/package*.json /app/
+
+# Instale as dependências do projeto Angular
 RUN npm install --legacy-peer-deps
 
-# Copie o restante dos arquivos do projeto para o container
+# Copie todo o código do projeto para o diretório /app no container
 COPY . /app/
 
-# Exponha a porta para a aplicação Angular
+# Exponha a porta 4200 que o Angular CLI usa por padrão
 EXPOSE 4200
 
-# Comando para iniciar o servidor Angular
+# Defina o comando para iniciar o servidor Angular
 CMD ["npm", "start"]
 
