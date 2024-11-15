@@ -14,6 +14,9 @@ COPY src ./src
 # Compilar o projeto e gerar o arquivo JAR
 RUN mvn clean package -DskipTests
 
+# Verificar se o JAR foi gerado corretamente
+RUN ls -l /app/target
+
 # Segunda etapa: usar uma imagem menor apenas para execução do JAR
 FROM openjdk:21-jdk-slim
 
@@ -21,7 +24,7 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Copiar o JAR gerado da etapa anterior para a imagem final
-COPY --from=build /app/target/br.com.miaujuda-0.0.1-SNAPSHOT.jar backend.jar
+COPY --from=build /app/target/*.jar backend.jar
 
 # Comando para iniciar a aplicação
 ENTRYPOINT ["java", "-jar", "backend.jar"]
