@@ -22,29 +22,40 @@
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
 
-# Use uma versão estável do Node.js com a versão 18 ou superior
+
+
+# Usando a imagem oficial do Node.js com base no Alpine Linux (leve)
 FROM node:18-alpine
 
-# Definir o diretório de trabalho no contêiner
+# Definindo o diretório de trabalho dentro do contêiner
 WORKDIR /usr/src/app
 
-# Copiar os arquivos de dependências para o contêiner
+# Copiando os arquivos de dependências para dentro do contêiner
 COPY package*.json ./
 
-# Instalar dependências do projeto
+# Instalando as dependências
 RUN npm install --legacy-peer-deps
 
-# Instalar o Angular CLI globalmente
+# Instalando o Angular CLI globalmente
 RUN npm install -g @angular/cli
 
-# Copiar o restante dos arquivos do projeto para o contêiner
+# Copiando todos os arquivos do diretório atual para o contêiner
 COPY . .
 
-# Expôr a porta que o servidor Angular irá rodar
+# Rodando o build de produção do Angular
+RUN ng build --prod
+
+# Instalando o http-server para servir o app Angular de forma otimizada
+RUN npm install -g http-server
+
+# Expondo a porta que o app Angular vai rodar
 EXPOSE 4200
 
-# Comando para rodar o servidor Angular
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+# Comando para rodar o servidor HTTP e servir a versão otimizada do build
+CMD ["http-server", "dist/miaujuda-front", "-p", "4200"]
+
+
+
 
 
 
