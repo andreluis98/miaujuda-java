@@ -20,7 +20,7 @@ COPY ./src ./src
 RUN mvn clean package -DskipTests
 
 # Verificar se o JAR foi gerado corretamente
-RUN echo "Verificando o conteúdo do diretório target:"
+RUN echo "Verificando o conteúdo do diretório /app/target no Render:"
 RUN ls -l /app/target
 
 # Etapa 2: Usar uma imagem mais leve para executar a aplicação com OpenJDK 21
