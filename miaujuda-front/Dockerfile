@@ -44,7 +44,7 @@ RUN npm install
 COPY . .
 
 # Construir o projeto Angular em modo de produção
-RUN npm run build
+RUN npm run build --prod
 
 # Etapa 2: Configurar o Nginx para servir os arquivos estáticos
 FROM nginx:alpine
@@ -60,3 +60,4 @@ EXPOSE 80
 
 # Iniciar o Nginx
 CMD ["nginx", "-g", "daemon off;"]
+
