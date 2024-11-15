@@ -32,7 +32,7 @@ FROM node:18 AS build
 WORKDIR /app
 
 # Copiar apenas o package.json e package-lock.json
-COPY package.json package-lock.json ./
+COPY miaujuda-front/package.json miaujuda-front/package-lock.json ./
 
 # Verificar os arquivos copiados para o diretório /app
 RUN ls -al /app
