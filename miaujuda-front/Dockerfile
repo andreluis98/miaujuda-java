@@ -28,14 +28,14 @@ FROM node:18-buster-slim
 # Crie o diretório de trabalho no container
 WORKDIR /usr/src/app
 
-# Copie o arquivo package.json e package-lock.json da subpasta 'app' para o container
+# Copie os arquivos package.json e package-lock.json para o container
 COPY miaujuda-front/package*.json ./
 
 # Instale as dependências antes de copiar o restante dos arquivos
 RUN npm install
 
 # Copie o restante dos arquivos da aplicação para o container
-COPY app/ . 
+COPY . .  
 
 # Exponha a porta que a aplicação irá usar
 EXPOSE 3000
