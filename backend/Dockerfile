@@ -1,8 +1,8 @@
-# Etapa 1: Usar uma imagem base do Maven e instalar o JDK 21 manualmente
-FROM maven:3.9.0-slim AS build
+# Etapa 1: Usar a imagem do OpenJDK 21 e instalar o Maven manualmente
+FROM openjdk:21-jdk-slim AS build
 
-# Instalar o OpenJDK 21 manualmente
-RUN apt-get update && apt-get install -y openjdk-21-jdk
+# Instalar Maven
+RUN apt-get update && apt-get install -y maven
 
 # Configurar o diretório de trabalho para o build
 WORKDIR /app
