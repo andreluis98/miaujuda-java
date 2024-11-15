@@ -28,7 +28,7 @@ FROM node:18-buster-slim
 # Definir o diretório de trabalho no container
 WORKDIR /app
 
-# Copiar os arquivos package.json e package-lock.json
+# Copiar apenas o package.json e package-lock.json primeiro
 COPY package*.json /app/
 
 # Instalar as dependências do projeto
@@ -42,3 +42,4 @@ EXPOSE 8080
 
 # Comando para rodar o aplicativo
 CMD ["npm", "start"]
+
