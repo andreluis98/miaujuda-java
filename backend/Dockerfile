@@ -13,11 +13,15 @@ COPY ./pom.xml ./pom.xml
 # Baixar as dependências do projeto
 RUN mvn dependency:go-offline
 
+# Verificar se as dependências foram baixadas corretamente
+RUN echo "Verificando as dependências Maven:"
+RUN ls -l /root/.m2/repository
+
 # Copiar o código do projeto para o container
 COPY ./src ./src
 
 # Compilar o projeto e gerar o arquivo JAR
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -U
 
 # Verificar se o JAR foi gerado corretamente
 RUN echo "Verificando o conteúdo do diretório /app/target no Render:"
@@ -35,6 +39,9 @@ COPY --from=build /app/target/*.jar backend.jar
 # Verificar se o JAR foi copiado corretamente
 RUN echo "Verificando se o arquivo JAR foi copiado corretamente:"
 RUN ls -l /app
+
+# Garantir permissões adequadas
+RUN chmod -R 755 /app
 
 # Comando para iniciar a aplicação
 ENTRYPOINT ["java", "-jar", "backend.jar"]
