@@ -29,7 +29,7 @@ FROM node:18-alpine
 WORKDIR /usr/src/app
 
 # Copie os arquivos package.json e package-lock.json para o diretório de trabalho
-COPY miaujuda-front/package*.json ./
+COPY package*.json ./
 
 # Instale as dependências
 RUN npm install
@@ -37,20 +37,21 @@ RUN npm install
 # Copie o restante dos arquivos do projeto para o diretório de trabalho
 COPY . .
 
-# Verifique se o angular.json está presente
-RUN ls -la src/app/angular.json
+# Verifique se o angular.json está presente na raiz do projeto
+RUN ls -la /usr/src/app/angular.json
 
-# Execute o build (sem a flag --prod)
+# Execute o build
 RUN npm run build
 
 # Exponha a porta que o servidor usará
 EXPOSE 4200
 
-# Instalar http-server para servir a aplicação
+# Instale o http-server para servir a aplicação
 RUN npm install -g http-server
 
 # Comando para rodar o servidor de produção
 CMD ["http-server", "dist", "-p", "4200"]
+
 
 
 
