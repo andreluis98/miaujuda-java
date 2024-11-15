@@ -34,14 +34,14 @@ WORKDIR /app
 # Copiar apenas o package.json e package-lock.json
 COPY miaujuda-front/package.json miaujuda-front/package-lock.json ./
 
-# Verificar os arquivos copiados para o diretório /app
-RUN ls -al /app
-
 # Instalar as dependências do Node.js
 RUN npm install
 
-# Copiar o restante dos arquivos do projeto para o contêiner
-COPY . .
+# Copiar o restante dos arquivos do projeto para o contêiner (incluindo src)
+COPY miaujuda-front/ ./
+
+# Definir o diretório de trabalho para o Angular
+WORKDIR /app/miaujuda-front
 
 # Construir o projeto Angular em modo de produção
 RUN npm run build --prod
@@ -53,11 +53,12 @@ FROM nginx:alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copiar os arquivos de build para o diretório de conteúdo estático do Nginx
-COPY --from=build /app/dist/miaujuda-front /usr/share/nginx/html
+COPY --from=build /app/miaujuda-front/dist/miaujuda-front /usr/share/nginx/html
 
 # Expor a porta 80 para tráfego HTTP
 EXPOSE 80
 
 # Iniciar o Nginx
 CMD ["nginx", "-g", "daemon off;"]
+
 
