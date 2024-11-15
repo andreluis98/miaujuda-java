@@ -22,24 +22,26 @@
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
 
-# Usar uma imagem mínima do Node.js
+# Use uma imagem do Node.js
 FROM node:18-buster-slim
 
-# Crie o diretório de trabalho no container
-WORKDIR /usr/src/app
+# Crie o diretório de trabalho
+WORKDIR /app
 
-# Copie os arquivos package.json e package-lock.json para o container
-COPY miaujuda-front/package*.json ./
+# Copie os arquivos do projeto Angular para o container
+COPY . .
 
-# Instale as dependências antes de copiar o restante dos arquivos
+# Instale as dependências do projeto
 RUN npm install
 
-# Copie o restante dos arquivos da aplicação para o container
-COPY . .  
+# Faça o build do projeto Angular
+RUN npm run build --prod
 
-# Exponha a porta que a aplicação irá usar
-EXPOSE 3000
+# Instale o http-server para servir os arquivos estáticos
+RUN npm install -g http-server
 
-# Comando para iniciar a aplicação
-CMD ["npm", "start"]
+# Exponha a porta 8080 (ou a porta que você deseja)
+EXPOSE 8080
 
+# Comando para rodar o http-server e servir os arquivos
+CMD ["http-server", "dist/miaujuda-front", "-p", "8080"]
