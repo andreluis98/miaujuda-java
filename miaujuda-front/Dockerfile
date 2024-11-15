@@ -35,7 +35,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Verificar os arquivos copiados para o diretório /app
-RUN ls -l /app
+RUN ls -al /app
+RUN ls -al /app/package*.json
 
 # Instalar as dependências do Node.js
 RUN npm install
@@ -60,6 +61,3 @@ EXPOSE 80
 
 # Iniciar o Nginx
 CMD ["nginx", "-g", "daemon off;"]
-
-
-
