@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS pets (
     name VARCHAR(50) NOT NULL,
     gender VARCHAR(10) NOT NULL,
     status VARCHAR(20) NOT NULL,
-    address VARCHAR(100) NOT NULL,
+    address TEXT NOT NULL,
     observation TEXT,
-    pet VARCHAR(50) NOT NULL,
+    pet TEXT NOT NULL,
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
