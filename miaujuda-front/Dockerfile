@@ -31,7 +31,7 @@ FROM node:18-alpine
 WORKDIR /usr/src/app
 
 # Copiando os arquivos de dependências para dentro do contêiner
-COPY package*.json ./
+COPY miaujuda-front/package*.json ./
 
 # Instalando as dependências
 RUN npm install --legacy-peer-deps
