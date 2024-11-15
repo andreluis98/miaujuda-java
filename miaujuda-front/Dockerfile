@@ -22,7 +22,7 @@
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
 
-# Use a imagem base do Node.js
+# Etapa 1: Construir o projeto Angular
 FROM node:18-buster-slim AS build
 
 # Defina o diretório de trabalho
@@ -37,9 +37,22 @@ RUN npm install --legacy-peer-deps
 # Copie todo o código do projeto para o diretório /app no container
 COPY . /app/
 
-# Exponha a porta 4200 que o Angular CLI usa por padrão
-EXPOSE 4200
+# Construa o projeto Angular em modo de produção
+RUN npm run build --prod
 
-# Defina o comando para iniciar o servidor Angular
-CMD ["npm", "start"]
+# Etapa 2: Configurar o Nginx para servir os arquivos estáticos
+FROM nginx:alpine
+
+# Remova a configuração padrão do Nginx
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copie os arquivos gerados pela build do Angular para o Nginx
+COPY --from=build /app/dist/miaujuda-front/ /usr/share/nginx/html/
+
+# Exponha a porta 80 para o Nginx
+EXPOSE 80
+
+# Comando para rodar o Nginx no container
+CMD ["nginx", "-g", "daemon off;"]
+
 
