@@ -31,12 +31,11 @@ FROM node:18 AS build
 # Definir o diretório de trabalho dentro do contêiner
 WORKDIR /app
 
-# Copiar package.json e package-lock.json para o contêiner
-COPY package*.json ./
+# Copiar apenas o package.json e package-lock.json
+COPY package.json package-lock.json ./
 
 # Verificar os arquivos copiados para o diretório /app
 RUN ls -al /app
-RUN ls -al /app/package*.json
 
 # Instalar as dependências do Node.js
 RUN npm install
