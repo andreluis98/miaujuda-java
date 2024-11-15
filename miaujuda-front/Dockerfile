@@ -22,7 +22,8 @@
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
 
-FROM node:14-alpine
+# Use a imagem Node.js com a versão 18 ou superior
+FROM node:18-alpine
 
 # Definir o diretório de trabalho no contêiner
 WORKDIR /usr/src/app
@@ -41,5 +42,6 @@ COPY . .
 
 # Comando para rodar o servidor Angular
 CMD ["ng", "serve", "--host", "0.0.0.0"]
+
 
 
