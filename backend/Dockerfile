@@ -25,6 +25,7 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Copiar o JAR gerado da etapa anterior para a imagem final
+# Usando coringa para garantir que qualquer JAR gerado seja copiado corretamente
 COPY --from=build /app/target/*.jar backend.jar
 
 # Verificar se o JAR foi copiado corretamente
