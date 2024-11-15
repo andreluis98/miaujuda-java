@@ -24,35 +24,33 @@
 
 
 
-# Usando a imagem oficial do Node.js com base no Alpine Linux (leve)
+# Etapa 1: Use a imagem do Node.js como base
 FROM node:18-alpine
 
-# Definindo o diretório de trabalho dentro do contêiner
+# Crie e defina o diretório de trabalho
 WORKDIR /usr/src/app
 
-# Copiando os arquivos de dependências para dentro do contêiner
-COPY miaujuda-front/package*.json ./
+# Copie os arquivos package.json e package-lock.json para o diretório de trabalho
+COPY package*.json ./
 
-# Instalando as dependências
-RUN npm install --legacy-peer-deps
+# Instale as dependências
+RUN npm install
 
-# Instalando o Angular CLI globalmente
-RUN npm install -g @angular/cli
-
-# Copiando todos os arquivos do diretório atual para o contêiner
+# Copie o restante dos arquivos do projeto para o diretório de trabalho
 COPY . .
 
-# Rodando o build de produção do Angular
-RUN ng build --prod
+# Execute o build (sem a flag --prod)
+RUN npm run build
 
-# Instalando o http-server para servir o app Angular de forma otimizada
-RUN npm install -g http-server
-
-# Expondo a porta que o app Angular vai rodar
+# Exponha a porta que o servidor usará
 EXPOSE 4200
 
-# Comando para rodar o servidor HTTP e servir a versão otimizada do build
-CMD ["http-server", "dist/miaujuda-front", "-p", "4200"]
+# Instalar http-server para servir a aplicação
+RUN npm install -g http-server
+
+# Comando para rodar o servidor de produção
+CMD ["http-server", "dist", "-p", "4200"]
+
 
 
 
