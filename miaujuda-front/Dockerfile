@@ -22,12 +22,11 @@
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
 
-
 # Etapa 1: Use a imagem do Node.js como base
 FROM node:18-alpine
 
 # Crie e defina o diretório de trabalho
-WORKDIR /miaujuda-front/src/app
+WORKDIR /usr/src/app
 
 # Copie os arquivos package.json e package-lock.json para o diretório de trabalho
 COPY miaujuda-front/package*.json ./
@@ -39,7 +38,7 @@ RUN npm install
 COPY . .
 
 # Verifique se o angular.json está presente no diretório de trabalho
-RUN ls -la /miaujuda-front/src/app/angular.json
+RUN ls -la /usr/src/app/angular.json
 
 # Execute o build (sem a flag --prod)
 RUN npm run build
