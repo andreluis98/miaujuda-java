@@ -1,5 +1,8 @@
-# Usar a imagem base do Maven com JDK 17 para compilar o projeto
-FROM maven:3.9.0-openjdk-17-slim AS build
+# Etapa 1: Usar uma imagem base do Maven e instalar o JDK 21 manualmente
+FROM maven:3.9.0-slim AS build
+
+# Instalar o OpenJDK 21 manualmente
+RUN apt-get update && apt-get install -y openjdk-21-jdk
 
 # Configurar o diretório de trabalho para o build
 WORKDIR /app
@@ -18,14 +21,13 @@ RUN mvn clean package -DskipTests
 RUN echo "Verificando o conteúdo do diretório target:"
 RUN ls -l /app/target
 
-# Segunda etapa: usar uma imagem menor apenas para execução do JAR com OpenJDK 21
+# Etapa 2: Usar uma imagem mais leve para executar a aplicação com OpenJDK 21
 FROM openjdk:21-jdk-slim
 
 # Definir o diretório de trabalho para a aplicação
 WORKDIR /app
 
 # Copiar o JAR gerado da etapa anterior para a imagem final
-# Usando coringa para garantir que qualquer JAR gerado seja copiado corretamente
 COPY --from=build /app/target/*.jar backend.jar
 
 # Verificar se o JAR foi copiado corretamente
