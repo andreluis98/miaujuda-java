@@ -22,6 +22,9 @@
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
 
+
+
+
 # Etapa 1: Construir o projeto Angular
 FROM node:18-buster-slim AS build
 
@@ -49,10 +52,12 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copie os arquivos gerados pela build do Angular para o Nginx
 COPY --from=build /app/dist/miaujuda-front/ /usr/share/nginx/html/
 
+# Copie o arquivo de configuração do Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+
 # Exponha a porta 80 para o Nginx
 EXPOSE 80
 
 # Comando para rodar o Nginx no container
 CMD ["nginx", "-g", "daemon off;"]
-
 
