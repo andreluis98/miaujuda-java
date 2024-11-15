@@ -1,5 +1,5 @@
 # Usar a imagem base do Maven com JDK 21 para compilar o projeto
-FROM maven:3.8.7-openjdk-21-slim AS build
+FROM maven:3.9.0-openjdk-21-slim AS build
 
 # Configurar o diretório de trabalho para o build
 WORKDIR /app
@@ -25,7 +25,6 @@ FROM openjdk:21-jdk-slim
 WORKDIR /app
 
 # Copiar o JAR gerado da etapa anterior para a imagem final
-# Usando coringa para garantir que qualquer JAR gerado seja copiado corretamente
 COPY --from=build /app/target/*.jar backend.jar
 
 # Verificar se o JAR foi copiado corretamente
