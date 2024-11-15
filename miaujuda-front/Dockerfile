@@ -28,27 +28,31 @@
 # Etapa 1: Construir o projeto Angular
 FROM node:18 AS build
 
+# Definir o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copiar package.json e package-lock.json para instalar dependências
+# Copiar o package.json e package-lock.json para instalar as dependências
 COPY package*.json ./
 
-# Instalar as dependências
+# Instalar as dependências do Node.js
 RUN npm install
 
 # Copiar o restante dos arquivos do projeto para o container
 COPY . .
 
 # Construir o projeto Angular em modo de produção
-RUN npm run build --prod
+RUN npm run build -- --prod
 
 # Etapa 2: Configurar o Nginx para servir os arquivos estáticos
 FROM nginx:alpine
 
-# Copiar os arquivos de build para o diretório do Nginx
+# Remover o arquivo padrão do Nginx
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copiar os arquivos de build para o diretório de conteúdo estático do Nginx
 COPY --from=build /app/dist/miaujuda-front /usr/share/nginx/html
 
-# Expor a porta 80 para o tráfego HTTP
+# Expor a porta 80 para tráfego HTTP
 EXPOSE 80
 
 # Iniciar o Nginx
