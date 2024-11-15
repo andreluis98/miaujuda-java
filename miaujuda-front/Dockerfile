@@ -22,7 +22,7 @@
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
 
-# Use a imagem Node.js com a versão 18 ou superior
+# Use uma imagem do Node.js com a versão específica para garantir compatibilidade
 FROM node:18-alpine
 
 # Definir o diretório de trabalho no contêiner
@@ -31,8 +31,9 @@ WORKDIR /usr/src/app
 # Copiar os arquivos de dependências para o contêiner
 COPY package*.json ./
 
-# Instalar dependências do projeto
-RUN npm install --legacy-peer-deps
+# Limpar o cache do npm e instalar as dependências
+RUN npm cache clean --force
+RUN npm ci --legacy-peer-deps
 
 # Instalar o Angular CLI globalmente
 RUN npm install -g @angular/cli
@@ -40,8 +41,18 @@ RUN npm install -g @angular/cli
 # Copiar o restante dos arquivos do projeto
 COPY . .
 
-# Comando para rodar o servidor Angular
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+# Construir o projeto Angular para produção
+RUN npm run build --prod
+
+# Instalar o http-server para servir os arquivos estáticos
+RUN npm install -g http-server
+
+# Expôr a porta 8080 para servir a aplicação
+EXPOSE 8080
+
+# Comando para rodar o servidor HTTP e servir os arquivos Angular
+CMD ["http-server", "dist/"]
+
 
 
 
