@@ -24,12 +24,22 @@
 
 FROM node:14-alpine
 
+# Definir o diretório de trabalho no contêiner
 WORKDIR /usr/src/app
 
+# Copiar os arquivos de dependências para o contêiner
 COPY package*.json ./
-RUN npm install --legacy-peer-deps  # Substituição de npm ci por npm install
 
+# Instalar dependências do projeto
+RUN npm install --legacy-peer-deps
+
+# Instalar o Angular CLI globalmente
+RUN npm install -g @angular/cli
+
+# Copiar o restante dos arquivos do projeto
 COPY . .
 
-CMD ["npx", "ng", "serve", "--host", "0.0.0.0"]
+# Comando para rodar o servidor Angular
+CMD ["ng", "serve", "--host", "0.0.0.0"]
+
 
