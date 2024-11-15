@@ -7,12 +7,14 @@ RUN apt-get update && apt-get install -y maven
 # Configurar o diretório de trabalho para o build
 WORKDIR /app
 
-# Copiar o arquivo pom.xml e baixar as dependências do projeto
-COPY pom.xml .
+# Copiar o arquivo pom.xml para o container
+COPY ./pom.xml ./pom.xml
+
+# Baixar as dependências do projeto
 RUN mvn dependency:go-offline
 
 # Copiar o código do projeto para o container
-COPY src ./src
+COPY ./src ./src
 
 # Compilar o projeto e gerar o arquivo JAR
 RUN mvn clean package -DskipTests
