@@ -42,4 +42,3 @@ EXPOSE 8080
 
 # Comando para rodar o aplicativo
 CMD ["npm", "start"]
-
