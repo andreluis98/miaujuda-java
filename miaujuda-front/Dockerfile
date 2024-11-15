@@ -25,32 +25,24 @@
 # Usar uma imagem mínima
 FROM node:18-buster-slim
 
-# Definir o diretório de trabalho no container
+# Crie o diretório de trabalho no container
 WORKDIR /usr/src/app
 
-# Copiar o arquivo package.json e package-lock.json para instalar as dependências
+# Copie o arquivo package.json e package-lock.json primeiro
 COPY package*.json ./
 
-# Instalar dependências
+# Instale as dependências antes de copiar o restante
 RUN npm install
 
-# Copiar os demais arquivos para o container
+# Copie o restante dos arquivos da aplicação para o container
 COPY . .
 
-# Confirmar que o arquivo angular.json está presente (opcional)
-RUN ls -la angular.json
+# Exponha a porta que a aplicação irá usar
+EXPOSE 3000
 
-# Construir a aplicação Angular
-RUN npm run build -- --output-path=dist
+# Comando para iniciar a aplicação
+CMD ["npm", "start"]
 
-# Instalar o servidor para servir os arquivos estáticos
-RUN npm install -g http-server
-
-# Expor a porta 4200
-EXPOSE 4200
-
-# Comando de execução para o servidor
-CMD ["http-server", "dist", "-p", "4200"]
 
 
 
