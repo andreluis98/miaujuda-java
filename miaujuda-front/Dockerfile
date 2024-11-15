@@ -22,22 +22,22 @@
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
 
-# Etapa 1: Usar a imagem do Node.js como base
+# Usar a imagem do Node.js como base
 FROM node:18-alpine
 
-# Diretório de trabalho no container
+# Definir o diretório de trabalho no container
 WORKDIR /usr/src/app
 
-# Copiar arquivos essenciais primeiro para instalar dependências
+# Copiar o arquivo package.json e package-lock.json para instalar as dependências
 COPY package*.json ./
 
 # Instalar dependências
 RUN npm install
 
-# Copiar os arquivos do projeto para o container
+# Copiar os demais arquivos para o container
 COPY . .
 
-# Confirmar que o arquivo angular.json está presente
+# Confirmar que o arquivo angular.json está presente (opcional)
 RUN ls -la angular.json
 
 # Construir a aplicação Angular
@@ -51,10 +51,6 @@ EXPOSE 4200
 
 # Comando de execução para o servidor
 CMD ["http-server", "dist", "-p", "4200"]
-
-
-
-
 
 
 
