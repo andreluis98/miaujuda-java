@@ -34,12 +34,15 @@ WORKDIR /app
 # Copiar package.json e package-lock.json para o contêiner
 COPY package*.json ./
 
+# Verificar os arquivos copiados para o diretório /app
+RUN ls -l /app
+
 # Instalar as dependências do Node.js
 RUN npm install
 
 # Copiar o restante dos arquivos do projeto para o contêiner
 COPY . .
-RUN ls -l /app
+
 # Construir o projeto Angular em modo de produção
 RUN npm run build --prod
 
@@ -57,5 +60,6 @@ EXPOSE 80
 
 # Iniciar o Nginx
 CMD ["nginx", "-g", "daemon off;"]
+
 
 
