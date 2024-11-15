@@ -20,7 +20,7 @@ RUN mvn dependency:go-offline
 COPY src /app/src
 
 # Verificar o conteúdo do diretório após copiar o src
-RUN ls -l /app
+RUN ls -l /app/src
 
 # Compilar o projeto e gerar o arquivo JAR
 RUN mvn clean package -DskipTests -U
