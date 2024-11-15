@@ -23,26 +23,25 @@
 
 
 
-
 # Etapa 1: Use a imagem do Node.js como base
 FROM node:18-alpine
 
 # Crie e defina o diretório de trabalho
-WORKDIR /usr/src/app
+WORKDIR /miaujuda-front/src/app
 
-# Copie apenas os arquivos de dependências para instalar as dependências primeiro (para cache eficiente)
+# Copie os arquivos package.json e package-lock.json para o diretório de trabalho
 COPY miaujuda-front/package*.json ./
 
 # Instale as dependências
 RUN npm install
 
-# Instalar o Angular CLI globalmente
-RUN npm install -g @angular/cli
-
 # Copie o restante dos arquivos do projeto para o diretório de trabalho
 COPY . .
 
-# Execute o build
+# Verifique se o angular.json está presente no diretório de trabalho
+RUN ls -la /miaujuda-front/src/app/angular.json
+
+# Execute o build (sem a flag --prod)
 RUN npm run build
 
 # Exponha a porta que o servidor usará
@@ -53,6 +52,7 @@ RUN npm install -g http-server
 
 # Comando para rodar o servidor de produção
 CMD ["http-server", "dist", "-p", "4200"]
+
 
 
 
