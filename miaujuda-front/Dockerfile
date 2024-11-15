@@ -28,20 +28,20 @@
 # Etapa 1: Construir o projeto Angular
 FROM node:18 AS build
 
-# Definir o diretório de trabalho dentro do container
+# Definir o diretório de trabalho dentro do contêiner
 WORKDIR /app
 
-# Copiar o package.json e package-lock.json para instalar as dependências
+# Copiar package.json e package-lock.json para o contêiner
 COPY package*.json ./
 
 # Instalar as dependências do Node.js
 RUN npm install
 
-# Copiar o restante dos arquivos do projeto para o container
+# Copiar o restante dos arquivos do projeto para o contêiner
 COPY . .
-
+RUN ls -l /app
 # Construir o projeto Angular em modo de produção
-RUN npm run build -- --prod
+RUN npm run build --prod
 
 # Etapa 2: Configurar o Nginx para servir os arquivos estáticos
 FROM nginx:alpine
@@ -57,4 +57,5 @@ EXPOSE 80
 
 # Iniciar o Nginx
 CMD ["nginx", "-g", "daemon off;"]
+
 
