@@ -29,7 +29,7 @@ FROM node:18-buster-slim AS build
 WORKDIR /app
 
 # Copie os arquivos package.json e package-lock.json para o container
-COPY /miaujuda-front/package*.json /app/
+COPY ./miaujuda-front/package*.json /app/
 
 # Instale as dependências do projeto Angular
 RUN npm install --legacy-peer-deps
